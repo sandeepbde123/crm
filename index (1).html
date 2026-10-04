@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LeadFlow CRM</title>
+<style>
+:root{--bg1:#e6edfc;--bg2:#f1e6fd;--card:rgba(255,255,255,.62);--bd:rgba(255,255,255,.85);--tx:#14182b;--mu:#667085;--ac:#5b5bf0;--red:#e5484d;--amb:#f59e0b;--grn:#16a34a;--in:rgba(255,255,255,.8)}
+@media(prefers-color-scheme:dark){:root{--bg1:#0f1226;--bg2:#1c1133;--card:rgba(255,255,255,.07);--bd:rgba(255,255,255,.14);--tx:#eceefb;--mu:#9aa1b8;--in:rgba(255,255,255,.1)}}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;font:15px/1.45 -apple-system,system-ui,"Segoe UI",sans-serif;color:var(--tx);background:linear-gradient(135deg,var(--bg1),var(--bg2)) fixed;min-height:100vh}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);box-shadow:0 8px 30px rgba(40,40,100,.08);padding:14px}
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{background:var(--in);border:1px solid var(--bd);border-radius:10px;padding:9px 10px;width:100%;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--ac)}
+button,.btn{background:var(--in);border:1px solid var(--bd);border-radius:10px;padding:7px 11px;cursor:pointer;text-decoration:none;display:inline-block;font-size:13px}
+button:hover{border-color:var(--ac)}
+.btn{background:var(--ac);color:#fff;border-color:var(--ac);font-size:14px}.btn.ghost{background:var(--in);color:var(--tx)}.btn.red{background:var(--red);border-color:var(--red)}
+nav{position:fixed;left:0;top:0;bottom:0;width:210px;padding:18px 12px;display:flex;flex-direction:column;gap:6px;z-index:5}
+nav h1{font-size:18px;margin:0 8px 14px}
+nav button{text-align:left;border:0;background:none;padding:10px 12px;font-size:14px;border-radius:12px;display:flex;gap:10px;position:relative}
+nav button.on{background:var(--card);box-shadow:0 2px 10px rgba(0,0,0,.08);font-weight:600}
+main{margin-left:210px;padding:16px 22px 40px;max-width:1250px}
+.top{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}.top #gs{flex:1;min-width:150px}.top .btn,.top button{width:auto}
+h2{margin:6px 0 12px}h3{margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.tile{cursor:pointer;transition:transform .15s}.tile:hover{transform:translateY(-2px)}
+.tile b{font-size:30px;display:block;line-height:1.1}.tile span{color:var(--mu);font-size:13px}
+.tile.big{grid-column:span 2;background:linear-gradient(135deg,rgba(91,91,240,.18),var(--card))}
+.tile.r b{color:var(--red)}.tile.a b{color:var(--amb)}.tile.g b{color:var(--grn)}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;padding:12px;margin-bottom:8px;border-radius:14px;background:var(--card);border:1px solid var(--bd);border-left:5px solid transparent}
+.row.od{border-left-color:var(--red);background:rgba(229,72,77,.1)}.row.td{border-left-color:var(--amb)}
+.rm{flex:1;min-width:210px;cursor:pointer}.ra{display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start}
+.mu{color:var(--mu)}.sm{font-size:13px}
+.b{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;margin-top:4px}
+.b.red{background:var(--red);color:#fff}.b.amb{background:var(--amb);color:#fff}.b.blue{background:rgba(91,91,240,.18)}.b.gray{background:rgba(120,120,140,.2)}
+.pill{font-size:11px;padding:1px 8px;border-radius:99px;border:1px solid var(--bd);margin-left:4px}.pHigh{background:var(--red);color:#fff}.pMedium{background:rgba(245,158,11,.25)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.bar>*{width:auto;flex:1;min-width:130px}.bar label{flex:0}
+.kan{display:flex;gap:12px;overflow-x:auto;padding-bottom:12px;align-items:flex-start}
+.col{min-width:230px;width:230px;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:10px;min-height:120px}
+.ch{font-weight:700;font-size:13px;display:flex;justify-content:space-between;margin-bottom:8px}
+.kc{background:var(--in);border:1px solid var(--bd);border-radius:12px;padding:9px;margin-bottom:8px;cursor:grab;font-size:13px}
+.kc select{margin-top:6px;padding:4px;font-size:12px}
+.ov{position:fixed;inset:0;background:rgba(10,10,30,.45);display:flex;align-items:center;justify-content:center;z-index:20;padding:12px}
+.md{width:100%;max-width:520px;max-height:92vh;overflow:auto;background:var(--bg1)}.md.wide{max-width:760px}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.x{border:0;background:none;font-size:18px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.fl{display:block;font-size:13px;color:var(--mu)}.fl input,.fl select,.fl textarea{margin-top:3px;color:var(--tx)}.w2{grid-column:span 2}
+.mf{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}.chips{display:flex;gap:6px;flex-wrap:wrap;margin:5px 0 0}
+.ck{grid-column:span 2;font-size:14px;display:flex;gap:8px}.ck input{width:auto}
+.tl{border-left:3px solid var(--ac);padding:2px 0 10px 12px;margin-left:4px}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:10px;font-size:14px}
+.bars div{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:13px}.bars i{display:block;height:14px;background:var(--ac);border-radius:6px;min-width:2px}
+#toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);z-index:30;display:flex;flex-direction:column;gap:6px}
+#toast div{background:#222;color:#fff;padding:10px 14px;border-radius:12px;font-size:14px}#toast .bad{background:var(--red)}
+#gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}#gate .card{width:100%;max-width:360px;text-align:center}
+#pin{font-size:30px;letter-spacing:14px;text-align:center}
+#bc{background:var(--red);color:#fff;border-radius:99px;padding:0 6px;font-size:12px}#bc:empty{display:none}
+@media(max-width:760px){
+nav{top:auto;width:auto;right:0;flex-direction:row;padding:6px;justify-content:space-around;border-radius:18px 18px 0 0;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);background:var(--card)}
+nav h1{display:none}nav button{flex-direction:column;align-items:center;gap:0;padding:6px 4px;font-size:11px}
+main{margin-left:0;padding:12px 12px 90px}.tile.big{grid-column:span 2}.fg,.dg{grid-template-columns:1fr}.w2,.ck{grid-column:span 1}}
+</style></head><body>
+<div id="gate"></div>
+<div id="app" hidden>
+<nav id="nav" class="card"></nav>
+<main>
+<div class="top"><input id="gs" placeholder="Search contacts and companies…" oninput="gs(this.value)"><button class="btn" onclick="openLead(null,true)">＋ Quick add</button><button onclick="bellPanel()">🔔 <span id="bc"></span></button><span id="sync" class="mu sm"></span></div>
+<section id="view"></section>
+</main></div>
+<div id="modal" hidden></div><div id="toast"></div>
+<script>
+/* ===== helpers ===== */
+const ST=['New Lead','Researched','Connection Request Sent','Connected','First Message Sent','Follow-up Due','Replied','Interested','Meeting Booked','Proposal Sent','Negotiation','Won','Lost','Nurture for Later'];
+const AT=['LinkedIn connection request','LinkedIn message sent','Reply received','Email sent','Phone call','Meeting','Proposal sent','Follow-up completed','General note'];
+const SYS=['Status change','Follow-up rescheduled','Follow-up dismissed'];
+const LC=[['name','Full name'],['company','Company'],['title','Job title'],['li','LinkedIn URL'],['email','Email'],['phone','Phone'],['country','Country'],['industry','Industry'],['source','Lead source'],['added','Date added'],['status','Status'],['priority','Priority'],['value','Potential deal value'],['service','Service offered'],['lastContact','Last contact date'],['lastSummary','Last interaction summary'],['next','Next follow-up'],['notes','Notes'],['lostReason','Reason lost']];
+const T={li:'url',email:'email',status:['s',ST],priority:['s',['High','Medium','Low']],value:'number',added:'date',lastContact:'datetime-local',next:'datetime-local',notes:'area',lastSummary:'area'};
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0'),fmt=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+const now=()=>fmt(new Date()),today=()=>now().slice(0,10),day=s=>s.slice(0,10);
+const addDays=(n,h=9)=>{const d=new Date();d.setDate(d.getDate()+n);d.setHours(h,0,0,0);return fmt(d)};
+const inH=h=>fmt(new Date(Date.now()+h*36e5));
+const dB=(a,b)=>Math.round((new Date(day(b))-new Date(day(a)))/864e5);
+const show=s=>s?new Date(s).toLocaleString([],{dateStyle:'medium',timeStyle:'short'}):'—';
+const tm=s=>new Date(s).toLocaleTimeString([],{timeStyle:'short'});
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const lead=id=>DB.leads.find(l=>l.id==id);
+const wk=s=>{const d=new Date(day(s)+'T00:00');d.setDate(d.getDate()-((d.getDay()+6)%7));return fmt(d).slice(0,10)};
+let DB={leads:[],acts:[]},VER=0,PIN='',view='dash',flt={},cfg=JSON.parse(localStorage.crmcfg||'null');
+function toast(m,bad){const t=document.createElement('div');t.textContent=m;if(bad)t.className='bad';$('#toast').appendChild(t);setTimeout(()=>t.remove(),bad?5000:3000)}
+function modal(t,h,w){const m=$('#modal');m.hidden=false;m.innerHTML=`<div class="ov" onclick="if(event.target==this)closeM()"><div class="card md ${w?'wide':''}"><div class="mh"><h3>${t}</h3><button class="x" onclick="closeM()">✕</button></div>${h}</div></div>`}
+const closeM=()=>{$('#modal').hidden=true;$('#modal').innerHTML=''};
+const setV=(id,v)=>$('#'+id).value=v;
+const chips=(id,h)=>`<div class="chips">${h?`<button type="button" onclick="setV('${id}',inH(1))">+1 hour</button>`:''}<button type="button" onclick="setV('${id}',addDays(1))">Tomorrow</button><button type="button" onclick="setV('${id}',addDays(3))">In 3 days</button><button type="button" onclick="setV('${id}',addDays(7))">In 7 days</button><button type="button" onclick="setV('${id}','')">None</button></div>`;
+
+/* ===== cloud storage (PIN checked on the server) ===== */
+async function rpc(fn,args){const r=await fetch(cfg.url+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:cfg.key,Authorization:'Bearer '+cfg.key,'Content-Type':'application/json'},body:JSON.stringify(args)});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.message||'Network error '+r.status);return j}
+let chain=Promise.resolve();
+function commit(){$('#sync').textContent='Saving…';chain=chain.then(async()=>{try{VER=await rpc('crm_save',{p_pin:PIN,p_data:DB,p_version:VER});$('#sync').textContent='Saved ✓'}catch(e){$('#sync').textContent='⚠ NOT saved';toast(e.message=='conflict'?'Data was changed on another device. Refresh the page, then redo your last change.':'Could not save: '+e.message,1)}});render()}
+function gate(){const g=$('#gate');g.hidden=false;$('#app').hidden=true;
+if(!cfg){g.innerHTML=`<div class="card"><h2>Connect your database</h2><p class="mu sm">One-time setup on this device. Paste the Project URL and the anon public key from Supabase → Project Settings → API.</p><input id="cu" placeholder="https://xxxx.supabase.co"><br><br><input id="ck" placeholder="anon public key"><br><br><button class="btn" onclick="saveCfg()">Save & continue</button></div>`;return}
+g.innerHTML=`<div class="card"><h2>🔒 LeadFlow CRM</h2><p class="mu">Enter your 4-digit PIN</p><input id="pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" oninput="if(this.value.length==4)unlock(this.value)"><p id="ge" style="color:var(--red);min-height:22px"></p><button onclick="if(confirm('Change the database connection on this device?')){localStorage.removeItem('crmcfg');cfg=null;gate()}">Change connection</button></div>`;$('#pin').focus()}
+function saveCfg(){const u=$('#cu').value.trim().replace(/\/+$/,''),k=$('#ck').value.trim();if(!/^https:\/\/.+\.supabase\.co$/.test(u)||k.length<20)return toast('Check the URL and key',1);cfg={url:u,key:k};localStorage.crmcfg=JSON.stringify(cfg);gate()}
+async function unlock(pin){$('#ge').textContent='Checking…';try{const r=await rpc('crm_load',{p_pin:pin});DB=Object.assign({leads:[],acts:[]},r.data);VER=r.version;PIN=pin;sessionStorage.crmpin=pin;$('#gate').hidden=true;$('#app').hidden=false;render();checkN()}catch(e){if($('#ge')){$('#ge').textContent=e.message=='bad_pin'?'Wrong PIN':'Error: '+e.message;$('#pin').value=''}else toast(e.message,1)}}
+
+/* ===== rules ===== */
+const act_=l=>!l.archived&&!['Won','Lost'].includes(l.status);
+const has=(l,a)=>act_(l)&&l.next&&a(l);
+const P={all:l=>!l.archived,
+today:l=>has(l,l=>day(l.next)==today()),overdue:l=>has(l,l=>day(l.next)<today()),
+tomorrow:l=>has(l,l=>day(l.next)==day(addDays(1))),week:l=>has(l,l=>day(l.next)>today()&&day(l.next)<=day(addDays(7))),
+nonext:l=>act_(l)&&!l.next&&l.status!='Nurture for Later',
+awaiting:l=>!l.archived&&['Connection Request Sent','First Message Sent','Follow-up Due'].includes(l.status),
+noreply:l=>P.awaiting(l)&&l.lastContact&&dB(l.lastContact,today())>=3,
+after:l=>act_(l)&&['Meeting Booked','Proposal Sent','Negotiation'].includes(l.status),
+interested:l=>!l.archived&&l.status=='Interested',meetings:l=>!l.archived&&l.status=='Meeting Booked',proposals:l=>!l.archived&&l.status=='Proposal Sent',
+mp:l=>P.meetings(l)||P.proposals(l),won:l=>!l.archived&&l.status=='Won',lost:l=>!l.archived&&['Lost','Nurture for Later'].includes(l.status),
+high:l=>act_(l)&&l.priority=='High',new:l=>!l.archived&&wk(l.added||today())==wk(today())};
+const nli=u=>(u||'').toLowerCase().trim().replace(/^https?:\/\/(www\.)?/,'').split(/[?#]/)[0].replace(/\/+$/,'');
+const dupOf=(x,ex)=>DB.leads.find(l=>l.id!==ex&&((nli(x.li)&&nli(x.li)==nli(l.li))||(x.email&&x.email.trim()&&x.email.trim().toLowerCase()==(l.email||'').toLowerCase())));
+function dueB(l){if(!act_(l))return '';if(!l.next)return '<span class="b gray">No next action</span>';const d=dB(l.next,today());if(d>0)return `<span class="b red">⚠ Overdue ${d} day${d>1?'s':''} · ${show(l.next)}</span>`;if(d==0)return `<span class="b amb">Today · ${tm(l.next)}${l.next<now()?' (time passed)':''}</span>`;return `<span class="b blue">${show(l.next)}</span>`}
+function row(l){const i=l.id;return `<div class="row ${P.overdue(l)?'od':P.today(l)?'td':''}"><div class="rm" onclick="detail('${i}')"><b>${esc(l.name)}</b>${l.company?' · '+esc(l.company):''}<span class="pill p${l.priority}">${l.priority}</span><div class="mu sm">${[l.title,l.country,l.status,l.value?'Value '+Number(l.value).toLocaleString():''].filter(Boolean).map(esc).join(' · ')}</div><div>${dueB(l)}</div>${l.lastSummary?`<div class="mu sm">Last: ${esc(l.lastSummary)}</div>`:''}</div><div class="ra"><button onclick="logAct('${i}')">Log</button><button onclick="resched('${i}')">Schedule</button>${l.next&&act_(l)?`<button onclick="complete('${i}')">✓ Done</button>`:''}${l.li?`<a class="btn ghost" href="${esc(l.li)}" target="_blank" rel="noopener">LinkedIn</a>`:''}<button onclick="openLead('${i}')">Edit</button><button onclick="detail('${i}')">History</button></div></div>`}
+const byNext=(a,b)=>(a.next||'9').localeCompare(b.next||'9');
+
+/* ===== navigation / views ===== */
+const NAV=[['dash','Dashboard','▦'],['remind','Reminders','⏰'],['leads','Leads','👥'],['pipe','Pipeline','▥'],['rep','Reports','📈'],['data','Backup','💾']];
+function go(v,f){view=v;flt=f||{};render()}
+function render(){if($('#app').hidden)return;$('#nav').innerHTML=`<h1>✦ LeadFlow</h1>`+NAV.map(n=>`<button class="${n[0]==view?'on':''}" onclick="go('${n[0]}')"><span>${n[2]}</span>${n[1]}</button>`).join('')+`<button style="margin-top:auto" onclick="sessionStorage.clear();location.reload()"><span>🔒</span>Lock</button>`;({dash,remind,leads,pipe,rep,data})[view]();checkN()}
+function dash(){const c=k=>DB.leads.filter(P[k]).length;
+const t=[['Overdue follow-ups','overdue','r big'],['Due today','today','a big'],['Total leads','all',''],['New this week','new',''],['Upcoming (7 days)','week',''],['Awaiting reply','awaiting',''],['Positive replies (Interested)','interested','g'],['Meetings booked','meetings',''],['Proposals sent','proposals',''],['Clients won','won','g'],['Lost / inactive','lost',''],['No next action','nonext','a']];
+const na=DB.leads.filter(l=>act_(l)&&l.next).sort(byNext).slice(0,10);
+$('#view').innerHTML=`<h2>Dashboard</h2><div class="grid">${t.map(x=>`<div class="card tile ${x[2]}" onclick="go('leads',{f:'${x[1]}'})"><b>${c(x[1])}</b><span>${x[0]}</span></div>`).join('')}</div><h3 style="margin-bottom:10px">My Next Actions</h3>${na.length?na.map(row).join(''):`<div class="card mu">${DB.leads.length?'No scheduled follow-ups. Open a lead and tap Schedule.':'No leads yet. Tap “＋ Quick add” to add your first lead.'}</div>`}${c('nonext')?`<p><a href="#" onclick="go('leads',{f:'nonext'});return false">${c('nonext')} lead(s) have no next action →</a></p>`:''}`}
+function remind(){const G=[['⚠ Overdue','overdue'],['Due today','today'],['Tomorrow','tomorrow'],['Next 7 days','week'],['No next action','nonext'],['Contacted, no reply for 3+ days','noreply'],['After meeting / proposal / negotiation','after']];
+$('#view').innerHTML=`<h2>Reminders</h2>`+G.map(g=>{const ls=DB.leads.filter(P[g[1]]).sort(byNext);return `<h3 style="margin:14px 0 8px">${g[0]} <span class="mu">(${ls.length})</span></h3>${ls.length?ls.map(row).join(''):'<div class="mu sm">Nothing here.</div>'}`}).join('')}
+const FO=[['','Any follow-up'],['overdue','Overdue'],['today','Due today'],['tomorrow','Tomorrow'],['week','Next 7 days'],['nonext','No next follow-up'],['high','High priority'],['interested','Interested'],['mp','Meetings & proposals'],['won','Won'],['lost','Lost / inactive'],['awaiting','Awaiting reply'],['new','New this week'],['noreply','No reply 3+ days'],['after','After meeting/proposal']];
+function leads(){const o=k=>[...new Set(DB.leads.map(l=>l[k]).filter(Boolean))].sort();
+const sel=(id,lab,opts,v)=>`<select id="${id}" onchange="upd()"><option value="">${lab}</option>${opts.map(x=>`<option ${x==v?'selected':''}>${esc(x)}</option>`).join('')}</select>`;
+$('#view').innerHTML=`<h2>Leads</h2><div class="bar card"><input id="q" placeholder="Search name, company…" value="${esc(flt.q||'')}" oninput="upd()"><select id="ff" onchange="upd()">${FO.map(x=>`<option value="${x[0]}" ${x[0]==(flt.f||'')?'selected':''}>${x[1]}</option>`).join('')}</select>${sel('fs','All statuses',ST,flt.s)}${sel('fp','All priorities',['High','Medium','Low'],flt.p)}${sel('fc','All countries',o('country'),flt.c)}${sel('fi','All industries',o('industry'),flt.i)}${sel('fr','All sources',o('source'),flt.r)}<input id="fd" type="date" title="Follow-up date" value="${flt.d||''}" onchange="upd()"><label><input id="fa" type="checkbox" style="width:auto" ${flt.a?'checked':''} onchange="upd()"> Archived</label><button onclick="exportCSV('filtered')">Export filtered</button><button class="btn" onclick="openLead(null)">＋ Add lead</button></div><div id="list"></div>`;list()}
+function upd(){Object.assign(flt,{q:$('#q').value,f:$('#ff').value,s:$('#fs').value,p:$('#fp').value,c:$('#fc').value,i:$('#fi').value,r:$('#fr').value,d:$('#fd').value,a:$('#fa').checked});list()}
+function gs(v){flt.q=v;if(view!='leads')view='leads',render();else{if($('#q'))$('#q').value=v;list()}}
+function filtered(){const f=flt,q=(f.q||'').toLowerCase();return DB.leads.filter(l=>(f.a?l.archived:(!f.f||P[f.f](l)))&&(!q||[l.name,l.company,l.email,l.title,l.li,l.notes].join(' ').toLowerCase().includes(q))&&(!f.s||l.status==f.s)&&(!f.p||l.priority==f.p)&&(!f.c||l.country==f.c)&&(!f.i||l.industry==f.i)&&(!f.r||l.source==f.r)&&(!f.d||(l.next&&day(l.next)==f.d))).sort(byNext)}
+function list(){const ls=filtered();$('#list').innerHTML=`<p class="mu sm">${ls.length} lead(s)</p>`+(ls.length?ls.map(row).join(''):'<div class="card mu">No leads match.</div>')}
+function pipe(){const L=DB.leads.filter(P.all);$('#view').innerHTML=`<h2>Pipeline</h2><p class="mu sm">Drag cards between columns, or use the dropdown on each card (works on phones).</p><div class="kan">${ST.map(s=>{const ls=L.filter(l=>l.status==s);const v=ls.reduce((a,l)=>a+(Number(l.value)||0),0);return `<div class="col" ondragover="event.preventDefault()" ondrop="setStatus(event.dataTransfer.getData('text'),'${s}')"><div class="ch"><span>${s}</span><span>${ls.length}${v?' · '+v.toLocaleString():''}</span></div>${ls.sort(byNext).map(l=>`<div class="kc" draggable="true" ondragstart="event.dataTransfer.setData('text','${l.id}')"><b onclick="detail('${l.id}')" style="cursor:pointer">${esc(l.name)}</b><span class="pill p${l.priority}">${l.priority}</span><div class="mu">${esc(l.company||'')}</div>${dueB(l)}<select onchange="setStatus('${l.id}',this.value)">${ST.map(x=>`<option ${x==l.status?'selected':''}>${x}</option>`).join('')}</select></div>`).join('')}</div>`}).join('')}</div>`}
+
+/* ===== lead CRUD ===== */
+function fld(k,v){const lab=LC.find(c=>c[0]==k)[1]+(k=='name'?' *':''),t=T[k];let i;
+if(Array.isArray(t))i=`<select id="f_${k}">${t[1].map(o=>`<option ${o==v?'selected':''}>${o}</option>`).join('')}</select>`;
+else if(t=='area')i=`<textarea id="f_${k}" rows="2">${esc(v)}</textarea>`;
+else i=`<input id="f_${k}" type="${t||'text'}" value="${esc(v)}" ${k=='industry'?'list="inds"':''}>`;
+return `<div class="${t=='area'||k=='next'?'w2':''}"><label class="fl">${lab}${i}</label>${k=='next'?chips('f_next'):''}</div>`}
+const QK=['name','company','li','country','status','next'];
+function openLead(id,quick){const l=id?lead(id):{status:'New Lead',priority:'Medium',added:today(),next:addDays(1)};const keys=quick?QK:LC.map(c=>c[0]);
+modal(id?'Edit lead':quick?'Quick add lead':'Add lead',`<datalist id="inds"><option>Accounting</option><option>Healthcare</option><option>Legal</option><option>Finance</option><option>Real estate</option><option>Software</option></datalist><div class="fg">${keys.map(k=>fld(k,l[k]??'')).join('')}</div><div class="mf"><button class="btn" onclick="saveLead('${id||''}',${!!quick})">Save</button>${!quick&&!id?`<button class="btn ghost" onclick="openLead(null,true)">Quick form</button>`:''}${quick?`<button class="btn ghost" onclick="openLead(null)">Full form</button>`:''}</div>`,!quick)}
+function saveLead(id,quick){const v={};(quick?QK:LC.map(c=>c[0])).forEach(k=>v[k]=$('#f_'+k).value.trim());
+if(!v.name)return toast('Name is required',1);
+if(v.li){if(!/^https?:\/\//i.test(v.li))v.li='https://'+v.li;if(!/^https?:\/\/[^\s/]+\.[^\s]+$/.test(v.li))return toast('LinkedIn URL looks invalid',1)}
+if(v.email&&!/^\S+@\S+\.\S+$/.test(v.email))return toast('Email looks invalid',1);
+const d=dupOf(v,id);if(d&&!confirm(`Possible duplicate: ${d.name}${d.company?' ('+d.company+')':''} already has the same LinkedIn URL or email.\n\nSave anyway?`))return;
+if(id){const l=lead(id),ns=v.status,old=l.status;if(ns)v.status=old;Object.assign(l,v);commit();closeM();if(ns&&ns!=old)setStatus(id,ns)}
+else{DB.leads.push({id:uid(),priority:'Medium',status:'New Lead',added:today(),archived:false,...v});commit();closeM();toast('Lead added')}}
+function setStatus(id,s,re){const l=lead(id);if(!l||l.status==s)return;const back=()=>{render();if(re)detail(id)};
+if(['Interested','Won','Lost'].includes(s)&&!confirm(`Confirm: move ${l.name} to “${s}”?`))return back();
+let reason='';if(s=='Lost'){reason=prompt('Reason for losing this lead? (optional)')||'';l.lostReason=reason}
+const old=l.status;l.status=s;if(s=='Won'||s=='Lost')l.next='';addAct(l,'Status change',`${old} → ${s}${reason?' ('+reason+')':''}`,'',now(),s);commit();if(re)detail(id)}
+function arch(id){const l=lead(id);if(!confirm(l.archived?'Restore this lead?':'Archive this lead? It is hidden but not deleted.'))return;l.archived=!l.archived;commit();closeM()}
+function del(id){const l=lead(id);if(!confirm(`Permanently delete ${l.name} and all their history? This cannot be undone.`))return;DB.leads=DB.leads.filter(x=>x.id!=id);DB.acts=DB.acts.filter(a=>a.lid!=id);commit();closeM()}
+
+/* ===== activities & follow-ups ===== */
+function addAct(l,type,summary,notes,at,to){DB.acts.push({id:uid(),lid:l.id,type,at:at||now(),summary:summary||'',notes:notes||'',to});if(!SYS.includes(type)&&(!l.lastContact||at>l.lastContact)){l.lastContact=at;l.lastSummary=summary||type}}
+function logAct(id,pre){const l=lead(id);modal('Log activity — '+esc(l.name),`<div class="fg"><label class="fl">Activity<select id="a_t">${AT.map(t=>`<option ${t==pre?'selected':''}>${t}</option>`).join('')}</select></label><label class="fl">Date & time<input id="a_d" type="datetime-local" value="${now()}"></label><label class="fl w2">What happened?<textarea id="a_s" rows="2"></textarea></label><label class="fl w2">Notes (optional)<textarea id="a_n" rows="2"></textarea></label><div class="w2"><label class="fl">Next follow-up (so you never forget)<input id="a_x" type="datetime-local"></label>${chips('a_x')}</div><label class="fl w2">Move to stage (optional — you confirm)<select id="a_st"><option value="">No change</option>${ST.map(s=>`<option>${s}</option>`).join('')}</select></label>${l.next?`<label class="ck"><input type="checkbox" id="a_c" checked> This completes the pending follow-up (${show(l.next)})</label>`:''}</div><div class="mf"><button class="btn" onclick="saveAct('${id}')">Save activity</button></div>`)}
+function saveAct(id){const l=lead(id),ty=$('#a_t').value,at=$('#a_d').value||now(),s=$('#a_s').value.trim(),n=$('#a_n').value.trim(),nx=$('#a_x').value,st=$('#a_st').value,c=$('#a_c')?.checked;
+addAct(l,ty,s,n,at);if(nx){if(l.next&&l.next!==nx)addAct(l,'Follow-up rescheduled',`${show(l.next)} → ${show(nx)}`);l.next=nx}else if(c)l.next='';
+commit();closeM();if(st&&st!=l.status)setStatus(id,st);if(!l.next&&act_(l))toast('Saved — but no next follow-up is scheduled.')}
+function complete(id){const l=lead(id);modal('Follow-up done — '+esc(l.name),`<label class="fl">What happened? (optional)<textarea id="c_s" rows="2"></textarea></label><p><b>Schedule the next action?</b></p><input id="c_x" type="datetime-local">${chips('c_x')}<div class="mf"><button class="btn" onclick="saveComplete('${id}')">Save</button></div>`)}
+function saveComplete(id){const l=lead(id),s=$('#c_s').value.trim(),nx=$('#c_x').value;addAct(l,'Follow-up completed',s||'Follow-up completed','',now());l.next=nx;commit();closeM();if(!nx)toast('Done — no next follow-up scheduled.')}
+function resched(id){const l=lead(id);modal('Schedule / snooze — '+esc(l.name),`<p class="mu sm">Current: ${show(l.next)}</p><input id="r_x" type="datetime-local" value="${l.next||addDays(1)}">${chips('r_x',1)}<label class="fl" style="margin-top:10px">Reason (required only to dismiss)<textarea id="r_r" rows="2"></textarea></label><div class="mf"><button class="btn" onclick="saveResched('${id}')">Save new time</button>${l.next?`<button class="btn red" onclick="dismissF('${id}')">Dismiss follow-up</button>`:''}</div>`)}
+function saveResched(id){const l=lead(id),nx=$('#r_x').value,r=$('#r_r').value.trim();if(!nx)return toast('Pick a date and time',1);addAct(l,'Follow-up rescheduled',(l.next?`${show(l.next)} → `:'Scheduled for ')+show(nx)+(r?' — '+r:''));l.next=nx;commit();closeM()}
+function dismissF(id){const l=lead(id),r=$('#r_r').value.trim();if(!r)return toast('Please enter a reason to dismiss',1);addAct(l,'Follow-up dismissed',`${show(l.next)} dismissed: ${r}`);l.next='';commit();closeM()}
+function detail(id){const l=lead(id);if(!l)return;const a=DB.acts.filter(x=>x.lid==id).sort((x,y)=>y.at.localeCompare(x.at));
+const f=LC.filter(c=>!['name','notes'].includes(c[0])&&l[c[0]]).map(c=>`<div class="mu">${c[1]}</div><div>${['next','lastContact'].includes(c[0])?show(l[c[0]]):esc(l[c[0]])}</div>`).join('');
+modal(esc(l.name)+(l.archived?' (archived)':''),`<div>${dueB(l)}</div><div class="dg" style="margin-top:10px">${f}</div>${l.notes?`<p>${esc(l.notes)}</p>`:''}<label class="fl">Stage<select onchange="setStatus('${id}',this.value,1)">${ST.map(s=>`<option ${s==l.status?'selected':''}>${s}</option>`).join('')}</select></label><div class="mf"><button class="btn" onclick="logAct('${id}')">Log activity</button><button onclick="resched('${id}')">Schedule</button>${l.next&&act_(l)?`<button onclick="complete('${id}')">✓ Done</button>`:''}${l.li?`<a class="btn ghost" href="${esc(l.li)}" target="_blank" rel="noopener">Open LinkedIn</a>`:''}<button onclick="openLead('${id}')">Edit</button><button onclick="arch('${id}')">${l.archived?'Restore':'Archive'}</button><button onclick="del('${id}')">Delete</button></div><h3 style="margin:16px 0 8px">Activity timeline</h3>${a.length?a.map(x=>`<div class="tl"><b>${esc(x.type)}</b> <span class="mu sm">${show(x.at)}</span><div>${esc(x.summary)}</div>${x.notes?`<div class="mu sm">${esc(x.notes)}</div>`:''}</div>`).join(''):'<p class="mu">No activity yet.</p>'}`,1)}
+
+/* ===== reports ===== */
+function rep(){const L=DB.leads,by={};DB.acts.forEach(a=>{(by[a.lid]??=[]).push(a)});
+const mx=l=>Math.max(0,...[l.status,...(by[l.id]||[]).map(a=>a.to)].filter(Boolean).map(s=>ST.indexOf(s)).filter(i=>i<=11));
+const ty=(l,t)=>(by[l.id]||[]).some(a=>t.includes(a.type));
+const rp=L.filter(l=>mx(l)>=6||ty(l,['Reply received'])),ct=L.filter(l=>mx(l)>=4||ty(l,['LinkedIn message sent','Email sent'])||rp.includes(l));
+const ws=[];for(let i=7;i>=0;i--){const d=new Date();d.setDate(d.getDate()-7*i);ws.push(wk(fmt(d)))}
+const wc=ws.map(w=>L.filter(l=>wk(l.added||today())==w).length),mw=Math.max(1,...wc);
+const fun=ST.slice(0,12).map((s,i)=>[s,L.filter(l=>mx(l)>=i).length]);
+const won=L.filter(l=>l.status=='Won'),lost=L.filter(l=>l.status=='Lost');
+$('#view').innerHTML=`<h2>Reports</h2><div class="grid"><div class="card tile"><b>${ct.length?Math.round(100*rp.length/ct.length):0}%</b><span>Response rate (${rp.length} of ${ct.length} contacted)</span></div><div class="card tile"><b>${L.filter(l=>mx(l)>=8).length}</b><span>Meetings booked (ever)</span></div><div class="card tile g" onclick="go('leads',{f:'won'})"><b>${won.length}</b><span>Deals won · value ${won.reduce((a,l)=>a+(Number(l.value)||0),0).toLocaleString()}</span></div><div class="card tile r" onclick="go('leads',{f:'lost'})"><b>${lost.length}</b><span>Lost opportunities</span></div></div>
+<div class="card" style="margin-bottom:12px"><h3>Leads added per week</h3><div class="bars">${ws.map((w,i)=>`<div><span style="width:78px">${w.slice(5)}</span><i style="width:${wc[i]/mw*60}%"></i>${wc[i]}</div>`).join('')}</div></div>
+<div class="card" style="margin-bottom:12px"><h3>Conversion by pipeline stage (leads that reached each stage)</h3><div class="bars">${fun.map(f=>`<div><span style="width:170px">${f[0]}</span><i style="width:${L.length?f[1]/L.length*50:0}%"></i>${f[1]}${L.length?' · '+Math.round(100*f[1]/L.length)+'%':''}</div>`).join('')}</div></div>
+<div class="card"><h3>Lost opportunities</h3>${lost.length?lost.map(l=>`<p>${esc(l.name)} ${l.company?'· '+esc(l.company):''} — <span class="mu">${esc(l.lostReason||'no reason recorded')}</span></p>`).join(''):'<p class="mu">None.</p>'}</div>`}
+
+/* ===== export / import / backup ===== */
+const csvE=v=>{v=String(v??'');return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+const toCSV=(rows,cols)=>'\ufeff'+[cols.map(c=>csvE(c[1])).join(','),...rows.map(r=>cols.map(c=>csvE(r[c[0]])).join(','))].join('\r\n');
+function parseCSV(t){t=t.replace(/^\ufeff/,'');const o=[];let r=[],f='',q=0;for(let i=0;i<t.length;i++){const c=t[i];if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=0}else f+=c}else if(c=='"')q=1;else if(c==','){r.push(f);f=''}else if(c=='\n'||c=='\r'){if(c=='\r'&&t[i+1]=='\n')i++;r.push(f);f='';o.push(r);r=[]}else f+=c}if(f!==''||r.length){r.push(f);o.push(r)}return o.filter(r=>r.some(x=>x.trim()))}
+function dl(n,t,m='text/csv'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:m+';charset=utf-8'}));a.download=n;document.body.appendChild(a);a.click();a.remove()}
+function exportCSV(k){const d=today();
+if(k=='acts'){const rows=DB.acts.map(a=>{const l=lead(a.lid)||{};return {n:l.name,c:l.company,at:a.at,t:a.type,s:a.summary,no:a.notes}}).sort((a,b)=>b.at.localeCompare(a.at));return dl(`activities-${d}.csv`,toCSV(rows,[['n','Lead'],['c','Company'],['at','Date'],['t','Type'],['s','Summary'],['no','Notes']]))}
+if(k=='tasks'){const rows=DB.leads.filter(l=>act_(l)&&l.next).sort(byNext).map(l=>({...l,od:Math.max(0,dB(l.next,today()))}));return dl(`followups-${d}.csv`,toCSV(rows,[['name','Lead'],['company','Company'],['next','Follow-up'],['od','Days overdue'],['status','Status'],['priority','Priority'],['lastSummary','Last interaction']]))}
+const rows=k=='filtered'?filtered():DB.leads;dl(`leads-${k}-${d}.csv`,toCSV(rows.map(l=>({...l,archived:l.archived?'Yes':''})),[...LC,['archived','Archived']]))}
+const nDT=s=>{s=(s||'').trim();if(!s)return '';s=s.replace(' ','T');if(s.length==10)s+='T09:00';const d=new Date(s);return isNaN(d)?'':fmt(d)};
+function importCSV(inp){const f=inp.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const rows=parseCSV(rd.result);if(rows.length<2)return toast('File has no data rows',1);
+const map=rows[0].map(h=>{h=h.trim().toLowerCase().replace(/ \*$/,'');const c=LC.find(c=>c[1].toLowerCase()==h||c[0].toLowerCase()==h);return c?c[0]:null});if(!map.includes('name'))return toast('Need a “Full name” column. Tip: export your leads first to see the format.',1);
+let ok=0,bad=0;const skip=[];
+rows.slice(1).forEach(r=>{const v={};map.forEach((k,i)=>{if(k)v[k]=(r[i]||'').trim()});if(!v.name){bad++;return}
+if(v.li&&!/^https?:\/\//i.test(v.li))v.li='https://'+v.li;const d=dupOf(v);if(d){skip.push(`${v.name} (matches ${d.name})`);return}
+v.status=ST.find(s=>s.toLowerCase()==(v.status||'').toLowerCase())||'New Lead';v.priority=['High','Medium','Low'].find(p=>p.toLowerCase()==(v.priority||'').toLowerCase())||'Medium';v.next=nDT(v.next);v.lastContact=nDT(v.lastContact);v.added=(nDT(v.added)||today()).slice(0,10);
+DB.leads.push({id:uid(),archived:false,...v});ok++});
+if(ok)commit();modal('Import finished',`<p><b>${ok}</b> imported · <b>${skip.length}</b> skipped as duplicates (existing records were NOT changed) · <b>${bad}</b> rows without a name</p>${skip.length?`<p class="mu sm">Skipped: ${skip.slice(0,40).map(esc).join('; ')}</p>`:''}`)}catch(e){toast('Could not read file: '+e.message,1)}inp.value=''};rd.readAsText(f)}
+const backup=()=>dl(`leadflow-backup-${now().replace(/[:T]/g,'-')}.json`,JSON.stringify({app:'leadflow',at:now(),data:DB}),'application/json');
+function restore(inp){const f=inp.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const j=JSON.parse(rd.result);if(j.app!='leadflow'||!Array.isArray(j.data?.leads)||!Array.isArray(j.data?.acts))throw Error('Not a LeadFlow backup file');
+if(!confirm(`Replace ALL current data with this backup (${j.data.leads.length} leads, ${j.data.acts.length} activities)? A backup of your current data will download first.`))return;backup();DB=j.data;commit();toast('Backup restored')}catch(e){toast('Restore failed: '+e.message,1)}inp.value=''};rd.readAsText(f)}
+function data(){$('#view').innerHTML=`<h2>Backup, import & export</h2><div class="card" style="margin-bottom:12px"><h3>Backup & restore</h3><p class="mu sm">Download a full backup regularly (e.g. every Friday). Restore replaces all current data after confirmation.</p><div class="mf"><button class="btn" onclick="backup()">Download backup</button><label class="btn ghost">Restore from backup<input type="file" accept=".json" hidden onchange="restore(this)"></label></div></div>
+<div class="card" style="margin-bottom:12px"><h3>Export (opens in Excel)</h3><div class="mf"><button onclick="exportCSV('all')">All leads</button><button onclick="exportCSV('acts')">Activities</button><button onclick="exportCSV('tasks')">Follow-up tasks</button><button onclick="go('leads')">Filtered leads → use Leads page</button></div></div>
+<div class="card"><h3>Import leads from CSV</h3><p class="mu sm">Excel: File → Save As → “CSV UTF-8”. Column names like Full name, Company, LinkedIn URL, Email, Country, Status, Next follow-up are recognised. Duplicates (same LinkedIn URL or email) are skipped, never overwritten.</p><label class="btn ghost">Choose CSV file<input type="file" accept=".csv,text/csv" hidden onchange="importCSV(this)"></label></div>`}
+
+/* ===== notifications ===== */
+const dueList=()=>DB.leads.filter(l=>P.overdue(l)||P.today(l)).sort(byNext);
+function bellPanel(){const ls=dueList(),ok='Notification' in window,pm=ok&&Notification.permission;
+modal('Notifications',`${ls.length?ls.map(row).join(''):'<p class="mu">Nothing overdue or due today 🎉</p>'}<hr><p class="sm mu"><b>Browser alerts:</b> ${!ok?'not supported in this browser.':pm=='granted'?'enabled.':pm=='denied'?'blocked — allow notifications for this site in browser settings.':'not enabled yet.'}<br>Limitation: alerts only fire while this page is open in a browser tab (a background tab is fine, but browsers may delay it). If the tab/browser is closed, nothing can notify you — so open the CRM each morning; overdue items are always shown first.</p>${ok&&pm=='default'?'<button class="btn" onclick="enableN()">Enable browser notifications</button>':''}`,1)}
+async function enableN(){const p=await Notification.requestPermission();if(p=='granted'){const seen={};const t=now();DB.leads.filter(l=>act_(l)&&l.next&&l.next<=t).forEach(l=>seen[l.id+l.next]=1);localStorage.crmseen=JSON.stringify(seen);new Notification('LeadFlow alerts on',{body:`${dueList().length} follow-up(s) overdue or due today.`})}bellPanel()}
+function checkN(){const n=dueList().length;$('#bc').textContent=n||'';document.title=(n?`(${n}) `:'')+'LeadFlow CRM';if(!('Notification' in window)||Notification.permission!='granted')return;const seen=JSON.parse(localStorage.crmseen||'{}'),t=now();
+DB.leads.filter(l=>act_(l)&&l.next&&l.next<=t).forEach(l=>{const k=l.id+l.next;if(!seen[k]){seen[k]=1;new Notification('Follow-up due: '+l.name,{body:(l.company||'')+' — '+(l.lastSummary||'Time to follow up')})}});localStorage.crmseen=JSON.stringify(seen)}
+setInterval(()=>{if(!$('#app').hidden){checkN();if(view=='dash'||view=='remind')render()}},60000);
+gate();if(cfg&&sessionStorage.crmpin)unlock(sessionStorage.crmpin);
+</script></body></html>
